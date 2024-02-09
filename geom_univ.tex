@@ -1,0 +1,140 @@
+\documentclass{patmorin}
+\listfiles
+\usepackage{pat}
+\usepackage{paralist}
+\usepackage{dsfont}  % for \mathds{A}
+\usepackage[utf8x]{inputenc}
+\usepackage{skull}
+\usepackage{paralist}
+\usepackage{graphicx}
+\usepackage[noend]{algorithmic}
+\usepackage{bbm}  % needed for \mathbbm{1}
+\usepackage{listings}
+
+\usepackage[normalem]{ulem}
+\usepackage{cancel}
+%\usepackage{enumitem}
+
+\usepackage{todonotes}
+
+% etoolbox allows for robust commands that don't need \protect, e.g.
+% \newrobustcmd{\onesub}{\mathord{\includegraphics{figs/one-sub}}}
+% \subsection{Approximate Voronoi Diagrams in $G^{\onesub}_k$}
+\usepackage{etoolbox}
+
+\usepackage[longnamesfirst,numbers,sort&compress]{natbib}
+
+\usepackage[mathlines]{lineno}
+\setlength{\linenumbersep}{2em}
+% \linenumbers
+% \rightlinenumbers
+% \linenumbers
+\newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+ \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+ \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+ \renewenvironment{#1}%
+    {\linenomath\csname old#1\endcsname}%
+    {\csname oldend#1\endcsname\endlinenomath}}%
+\newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+ \patchAmsMathEnvironmentForLineno{#1}%
+ \patchAmsMathEnvironmentForLineno{#1*}}%
+\AtBeginDocument{%
+\patchBothAmsMathEnvironmentsForLineno{equation}%
+\patchBothAmsMathEnvironmentsForLineno{align}%
+\patchBothAmsMathEnvironmentsForLineno{flalign}%
+\patchBothAmsMathEnvironmentsForLineno{alignat}%
+\patchBothAmsMathEnvironmentsForLineno{gather}%
+\patchBothAmsMathEnvironmentsForLineno{multline}%
+}
+
+\newcommand{\vol}[1]{\boxplus_{#1}}
+
+
+\DeclareMathOperator{\interior}{Int}
+
+% Taken from
+% https://tex.stackexchange.com/questions/42726/align-but-show-one-equation-number-at-the-end
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+\definecolor{brightmaroon}{rgb}{0.76, 0.13, 0.28}
+\definecolor{linkblue}{rgb}{0, 0.337, 0.227}
+\newcommand{\defin}[1]{\emph{\color{brightmaroon}#1}}
+\setlength{\parskip}{1ex}
+
+\title{\MakeUppercase{A Universal Geometric Graph for Plane Graphs}\thanks{This research was partly funded by NSERC.}}
+\author{Friends from Dagstuhl 24062}
+
+\DeclareMathOperator{\VE}{\mathit{VE}}
+
+\date{}
+
+
+\begin{document}
+
+\maketitle
+\renewcommand{\E}{\mathbb{E}}
+\renewcommand{\Pr}{\mathbb{P}}
+
+\begin{abstract}
+  We show that there exists a geometric graph $U_n$ having $O(n^3\log n)$ edges with the property that, for any $n$-vertex plane graph $G$ there is an isomorphism from $G$ into a non-crossing subgraph of $U_n$ that preserves the combinatorial embedding of $G$.  In other words, $U_n$ contains a non-crossing straight-line drawing of $G$ as a subgraph.
+\end{abstract}
+
+\section{Introduction}
+
+
+
+\section{Stuff}
+
+\subsection{Majorizing Sequences}
+
+Define the order $r$ \defin{majorizing sequence} $S_r$ as the sequence of integers:
+\[
+   S_r := s_{r,1},\ldots,s_{2^{r+1}-1} :=
+    \begin{cases}
+      1& \text{if $r=0$} \\
+      S_{r-1},2^{r+1}-1,S_{r-1} & \text{otherwise}
+    \end{cases}
+\]
+so that, for example, $S_3=1,3,1,7,1,3,1,15,1,3,1,7,1,3,1$.\footnote{The sequence $S_r$ can also be defined by taking a complete binary tree $T_r$ of height $r$ and listing the sizes of subtrees of $T_r$ in the order they are encountered by an in-order traversal of $T_r$.}  It is straightforward to verify that the length of $S_r$ is indeed $n_r:=2^{r+1}-1$ and that the sum of the values in $S_r$ is
+\begin{equation}
+  \Sigma_r := \sum_{i=1}^{n_r} s_{r,i} = r2^{r+1}+1 \enspace . \label{sigma_r}
+\end{equation}
+The following well known lemma [CITATION] says that every length-$\ell$ subsequence of $S_r$ contains a value greater than or equal to $\ell$.
+\begin{lem}
+  For all positive integers $r$, $i\le 2^{r+1}-1$, and $\ell\le 2^{r+1}-i$, $\max\{s_{r,i},\ldots,s_{r,i+\ell-1}\}\ge \ell$.
+\end{lem}
+
+\subsection{The Universal Graph}
+
+Let $c$, $r$, and $n$ be positive integers and let $U_{n,r,c}$ be the graph with vertex set
+\[
+  V(U_{n,r,c}):=\{ u_{i,j}: (i,j)\in\{1,\ldots,2^{r+1}-1\}\times \{1,\ldots,n\}\}
+\]
+and edge set
+\begin{align*}
+  E(U_{n,r,c}) & := \left\{ u_{i,j}u_{i',j'} \in V(U_{n,r,c})^2: |i-i'| \le c\max\{s_{r,i},s_{r,i'}\}\right\} \\
+  & \quad {}\cup\left\{u_{i,j}u_{i',j}:i,i'\in\{1,\ldots,2^{r+1}-1\}\right\}\enspace .
+\end{align*}
+In words, each row $u_{1,j},\ldots,u_{2^{r+1}-1,j}$ is a clique and each vertex $u_{i,j}$ is connected to all the vertices in columns $i-cs_{r,i},\ldots,i+cs_{r,i}$.
+
+We treat $U_{n,r,c}$ as a geometric graph by assign each vertex $u_{i,j}$ an x-coordinate equal to $i$.  The $y$ coordinate of $u_{i,j}$ is equal to some value $y_j$ defined as follows:  $y_1:=0$ and, for $j>1$, $y_j$ is any sufficiently large value such that all points in $u_{1,j},\ldots,u_{2^{r+1}-1,j}$ are above every non-vertical line defined by two points in $\{u_{i',j'}:(i',j')\in\{1,\ldots,2^{r+1}-1\}\times\{1,\ldots,j-1\}\}$.
+
+Our universal graph for $n$-vertex planar graphs is the graph $U_{n,b+\lceil\log_2 n\rceil,c}$ for some constants $b$ and $c$ that will be discussed later.
+
+\subsection{Canonical Orderings and Frame Graphs}
+
+A \defin{triangulation} is a plane graph whose faces (including the outer face) are bounded by triangles ($3$-cycles). A \defin{near triangulation} is a plane graph whose outer face is bounded by a cycle and whose interior faces are all triangles.
+
+Let $G$ be a triangulation whose outer face is bounded by a cycle $v_1,v_2,v_n$.  Then, a total ordering $v_1,\ldots,v_n$ of $V(G)$ is a \defin{canonical ordering} if, for each $i\in\{3,\ldots,n\}$,  $G[v_1,\ldots,v_i]$ is a near-triangulation that has $v_i$ on its outer face.
+
+
+\subsection{Armpits}
+
+
+
+
+
+
+
+
+\end{document}
