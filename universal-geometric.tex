@@ -121,7 +121,9 @@ and edge set
 \end{align*}
 In words, each row $u_{1,j},\ldots,u_{2^{r+1}-1,j}$ is a clique and each vertex $u_{i,j}$ is connected to all the vertices in columns $i-cs_{r,i},\ldots,i+cs_{r,i}$.
 
-We treat $U_{n,r,c}$ as a geometric graph by assign each vertex $u_{i,j}$ an x-coordinate equal to $i$.  The $y$ coordinate of $u_{i,j}$ is equal to some value $y_j$ defined as follows:  $y_1:=0$ and, for $j>1$, $y_j$ is any sufficiently large value such that all points in $u_{1,j},\ldots,u_{2^{r+1}-1,j}$ are above every non-vertical line defined by two points in $\{u_{i',j'}:(i',j')\in\{1,\ldots,2^{r+1}-1\}\times\{1,\ldots,j-1\}\}$.
+\ipat{TODO: Double the number of vertices so that each column becomes a set of $2n$ points on a convex curve.}
+
+We treat $U_{n,r,c}$ as a geometric graph by assigning each vertex $u_{i,j}$ an x-coordinate equal to $i$.  The $y$ coordinate of $u_{i,j}$ is equal to some value $y_j$ defined as follows:  $y_1:=0$ and, for $j>1$, $y_j$ is any sufficiently large value such that all points in $u_{1,j},\ldots,u_{2^{r+1}-1,j}$ are above every non-vertical line defined by two points in $\{u_{i',j'}:(i',j')\in\{1,\ldots,2^{r+1}-1\}\times\{1,\ldots,j-1\}\}$.
 
 Our universal graph for $n$-vertex planar graphs is the graph $U_{n,b+\lceil\log_2 n\rceil,c}$ for some constants $b$ and $c$ that will be discussed later.
 
@@ -130,6 +132,16 @@ Our universal graph for $n$-vertex planar graphs is the graph $U_{n,b+\lceil\log
 A \defin{triangulation} is a plane graph whose faces (including the outer face) are bounded by triangles ($3$-cycles). A \defin{near triangulation} is a plane graph whose outer face is bounded by a cycle and whose interior faces are all triangles.
 
 Let $G$ be a triangulation whose outer face is bounded by a cycle $v_1,v_2,v_n$.  Then, a total ordering $v_1,\ldots,v_n$ of $V(G)$ is a \defin{canonical ordering} if, for each $i\in\{3,\ldots,n\}$,  $G[v_1,\ldots,v_i]$ is a near-triangulation that has $v_i$ on its outer face.
+
+
+Let $v_1,\ldots,v_n$ be a canonical ordering of $G$. For each $i\in\{1,\ldots,n\}$, let $G_i:=G[v_1,\ldots,v_i]$.  For each $i\in\{3,\ldots,n\}$, the outer face of $G_i$ contains exactly two edges $u_iv_i$ and $v_iw_i$ that are not on in $G_{i-1}$.  For each $i\in\{2,\ldots,n\}$, let $F_i$ be the graph with vertex set $V(F_i):=\{v_1,\ldots,v_i\}$ and edge set $\{v_1v_2\}\cup\bigcup_{j=3}^n\{u_iv_i,v_iw_i\}$.  We treat each $F_i$ as a directed acyclic graph with a single source $v_1$ and a single sink $v_2$ in which the orientation of each edge in $F_i$ is either inherited from $F_{i-1}$ or (if the edge is $u_iv_i$ or $v_iw_i$) chosen to ensure that $F_i$ is acyclic with single source $v_1$ and single sink $v_2$.
+
+
+
+
+
+
+
 
 Our proof requires a type of canonical ordering, which motivates the following definition. A \defin{stingray} $(x_1,\ldots,x_r)$ in a near-triangulation $G$ is a maximal path $x_1,\ldots,x_r$ on the outer face of $G$ with a special vertex $x_i$ (the \defin{stinger}) that has the following properties (see \cref{crow}):
 \begin{compactenum}
@@ -181,13 +193,15 @@ A $v_1v_2$-rooted stingray decomposition $S_0,\ldots,S_t$ of $G$ gives a canonic
 
 \subsection{Canonical Orderings and Frames}
 
-Any canonical ordering $v_1,\ldots,v_n$ of a triangulation $G$ defines a sequence of graphs $G_2,\ldots,G_n$, where $G_i:=G[v_1,\ldots,v_i]$.  Each of these graphs has the edge $v_1v_2$ on its outer face.  For each $i\ge 2$, each graph $G_i$ contains two edges $u_iv_i$ and $v_iw_i$ incident to $v_i$.   The \defin{frame graph} $F_i$ is the graph with vertex set $V(F_i):=\{v_1,\ldots,v_i\}$ and edge set $E(F_i):=\{v_1v_2\}\cup \bigcup_{j=3}^i\{u_iv_i,v_iw_i\}$.  We treat each frame graph $F_i$ as a directed acyclic graph with the edges directed so that $F_i$ has a single source $v_1$ and a single sink $v_2$.
+Any canonical ordering $v_1,\ldots,v_n$ of a triangulation $G$ defines a sequence of graphs $G_2,\ldots,G_n$, where $G_i:=G[v_1,\ldots,v_i]$.  Each of these graphs has the edge $v_1v_2$ on its outer face.  For each $i\ge 2$, each graph $G_i$ contains two edges $u_iv_i$ and $v_iw_i$ incident to $v_i$.   The \defin{frame graph} $F_i$ is the graph with vertex set $V(F_i):=\{v_1,\ldots,v_i\}$ and edge set $E(F_i):=\{v_1v_2\}\cup \bigcup_{j=3}^i\{u_iv_i,v_iw_i\}$.  We treat each frame graph $F_i$ as a directed acyclic graph with the edges directed so that $F_i$ has a single source $v_1$ and a single sink $v_2$ and the orientation of each edge other and $u_iv_i$ and $v_iw_i$ is inherited from $F_{i-1}$.
 
 \subsection{\boldmath Embedding into $U_{n,r,c}$}
 
 To embed an $n$-vertex triangulation $G$ into $U_{n,r,c}$, we start with a $v_1v_2$-rooted stingray decomposition $S_0,\ldots,S_t$ of $G$ and the resulting stingray ordering $v_1,\ldots,v_n$.  For each $j\in\{1,\ldots,t\}$, all the vertices in $S_j$ will be mapped to vertices in the $j$-th row $R_j:=\{x_{i,j}:i\in\{1,\ldots,2^{r+1}-1\}\}$ of $U_{n,r,c}$.  This determines the y-coordinate of each vertex of $G$.
 
-The (directed acyclic) frame graph $F_n$ defines a partial order $\prec$ on the vertices of $G$ in which $v\prec w$ if and only if $F_n$ contains a directed path from $v$ to $w$.  For a directed edge $\overrightarrow{vw}$ of $F_n$, define \defin{subdistance} $\sd(u,w)$ from $u$ to $w$ as the maximum number of edges in a directed path from $u$ to $w$ in $F_n$.  We use the term subdistance because for any $u\prec v\prec w$, $\sd(u,v)+\sd(v,w) \le \sd(u,w)$.  That is, subdistance satisfies a reverse triangle inequality with equality if and only if there is a longest directed path from $u$ to $w$ that includes $v$.  It is worth noting that in the following paragraphs $\sd(v,w)$ always refers to the length of the longest directed path from $v$ to $w$ in the frame $F_n$, even when we are discussing the frame $F_i$ for some $i<n$.
+The (directed acyclic) frame graph $F_n$ defines a partial order $\prec$ on the vertices of $G$ in which $v\prec w$ if and only if $F_n$ contains a directed path from $v$ to $w$.  We classify each edge of $F_n$ as \defin{solid} or \defin{vanishing} as follows:  An edge $uw$ of $F_n$ is if there exists some $j\in\{i+1,\ldots,n\}$ such that $u_j=u$ and $w_j=w$; otherwise $uw$ is solid.  Observe that $v_1v_2$ is solid because $u_n=v_1$ and $w_n=v_2$.  For a solid edge $\overrightarrow{uw}$ of $F_n$, define \defin{subdistance} $\sd(u,w)$ from $u$ to $w$ as the maximum number of solid edges in a directed path from $u$ to $w$ in $F_n$.  For a vanish edge $uw$, define $\sd(uw):=0$.
+
+% We use the term subdistance because for any $u\prec v\prec w$, $\sd(u,v)+\sd(v,w) \le \sd(u,w)$.  That is, subdistance satisfies a reverse triangle inequality with equality if and only if there is a longest directed path from $u$ to $w$ that includes $v$.  It is worth noting that in the following paragraphs $\sd(v,w)$ always refers to the length of the longest directed path from $v$ to $w$ in the frame $F_n$, even when we are discussing the frame $F_i$ for some $i<n$.
 
 \paragraph{Subdistances and edge lengths}
 
@@ -216,11 +230,9 @@ We start by assigning each vertex $v_i$ a \defin{down weight} $\sigma_1(v_i)$. T
   \item Otherwise $v_i=x_p$ for some $p\in\{1,\ldots,r\}\setminus\{x_1,x_j,x_p\}$ and we set $\sigma_1(v_i):=\len(x_{p-1},x_{p+1})$.
 \end{compactenum}
 
-\begin{epat}
-  The following lemma is wrong, for a very fundamental reason.  Suppose that $F_n$ contains a directed path $P$ that contains the vertices $v_1,\ldots,v_2k$ in order and suppose that $G$ contains the edge $e_i:=v_iv_{2k-i+1}$ for each $i\in\{1,\ldots,k\}$, with each of these edges ``below'' the path $P$ so these edges make a rainbow with respect the ordering $v_1,\ldots,v_{2k}$.  Then all the vertices in $v_1,\ldots,v_{2k}$ must be assigned distinct $x$-coordinates since they are part of a directed path in $F_n$. But then each edge $e_i$ has $\len(e_i)\ge \sd(e_i)\ge 2(k-i)+1$. Therefore, $\sum_{v\in V(P)}\sigma_1(v)\ge \sum_{i=1}^k (2(k-i)+1) = \Omega(k^2)$.
+Consider some directed path $P:=z_1,\ldots,z_\ell$ from $v_1$ to $v_2$ in $F_n$.  A \defin{segment} of $P$ is a maximal subpath $z_i,\ldots,z_j$ such that all edges in the subpath are vanishing.  (Note that a segment consists of a single vertex $z_i$ when $z_{i-1}$ and $z_{i+1}$ are both solid.) The \defin{down weight} of a segment $z_i,\ldots,z_j$ is equal to $\max\{\sigma_1(z_p):p\in\{i,\ldots,j\}\}$.  The \defin{down weight} $\sigma_1(P)$ of $P$ is equal to the sum of the down weights of the segments in $P$.
 
-  I think we need to use the POSH trick of having two or three columns for each x-coordinate.
-\end{epat}
+
 
 \begin{lem}
   For any directed path $P$ from $v_1$ to $v_2$ in $F_n$, $\sum_{v\in V(P)} \sigma_1(v) \le Cn$.
