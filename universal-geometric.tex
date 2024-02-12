@@ -220,6 +220,10 @@ We start by assigning each vertex $v_i$ a \defin{down weight} $\sigma_1(v_i)$. T
   The following lemma is wrong, for a very fundamental reason.  Suppose that $F_n$ contains a directed path $P$ that contains the vertices $v_1,\ldots,v_2k$ in order and suppose that $G$ contains the edge $e_i:=v_iv_{2k-i+1}$ for each $i\in\{1,\ldots,k\}$, with each of these edges ``below'' the path $P$ so these edges make a rainbow with respect the ordering $v_1,\ldots,v_{2k}$.  Then all the vertices in $v_1,\ldots,v_{2k}$ must be assigned distinct $x$-coordinates since they are part of a directed path in $F_n$. But then each edge $e_i$ has $\len(e_i)\ge \sd(e_i)\ge 2(k-i)+1$. Therefore, $\sum_{v\in V(P)}\sigma_1(v)\ge \sum_{i=1}^k (2(k-i)+1) = \Omega(k^2)$.
 
   I thought that using the POSH trick of having two or three columns for each x-coordinate would be able to fix this, but you can thwart such an attempt by adding triangle spikes to the ``vertical'' edges.
+
+  \begin{center}
+    \includegraphics[page=2]{figs/crap.pdf}
+  \end{center}
 \end{epat}
 
 \begin{lem}
@@ -227,7 +231,6 @@ We start by assigning each vertex $v_i$ a \defin{down weight} $\sigma_1(v_i)$. T
 \end{lem}
 
 \begin{proof}
-  By definition, $\len(P)=\len(v_1v_2)$ is the number of edges in the longest directed path in $F_n$ from $v_1$ to $v_2$, so $\len(P)\le n$.
 \end{proof}
 
 
