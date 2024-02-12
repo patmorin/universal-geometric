@@ -192,7 +192,7 @@ We assign these edge lengths in the order edges appear in the sequence $F_2,\ldo
 \begin{compactenum}
   \item If $v_i=x_j+1$ then $u_i=x_j$ and $\overrightarrow{u_iw_i}$ is an edge of $F_{i-1}$.  In this case we set $\len(u_iv_i):=\len(u_iw_i)-\sd(v_i,w_i)$ and $\len(v_iw_i):=\sd(v_i,w_i)$.
 
-  \item If $v_i=x_{j-1}$ then $w_i=x_j$ and $\overightarrow{u_iw_i}$ is an edge of $F_{i-1}$.  In this case set $\len(u_iv_i):=\sd(u_i,v_i)$ and $\len(v_iw_i):=\len(u_iw_i)-\sd(v_i,w_i)$.
+  \item If $v_i=x_{j-1}$ then $w_i=x_j$ and $\overrightarrow{u_iw_i}$ is an edge of $F_{i-1}$.  In this case set $\len(u_iv_i):=\sd(u_i,v_i)$ and $\len(v_iw_i):=\len(u_iw_i)-\sd(v_i,w_i)$.
 
   \item Otherwise $v_i=x_p$ for some $p\in\{1,\ldots,r\}\setminus\{j-1,j+1\}$. How this is resolved is less important and we can assign $\len(u_iv_i)$ and $\len(v_iw_i)$ using anything that satisfies $\len(u_iv_i)\ge\sd(u_i,v_i)$, $\len(v_iw_i)\ge\sd(v_i,w_i)$ and $\len(u_iv_i)+\len(v_iw_i)=\len(u_iw_i)$.  For example, setting $\Delta_i:=\len(u_i,w_i)-\sd(u_i,v_i)-\sd(v_i,w_i)$,  $\len(u_iv_i):=\sd(u_i,v_i)+\Delta_i/2$, and $\len(v_iw_i):=\sd(v_i,w_i)+\Delta_i/2$ works.
 \end{compactenum}
